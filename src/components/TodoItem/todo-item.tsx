@@ -13,7 +13,7 @@ interface State {
   editing: boolean
 };
 
-class TodoItem extends React.Component<Props, State> {
+export default class TodoItem extends React.Component<Props, State> {
 
   constructor(props?: Props) {
     super(props)

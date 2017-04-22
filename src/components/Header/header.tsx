@@ -1,4 +1,5 @@
 import * as React from 'react'
+import TodoTextInput from '../TodoTextInput';
 
 interface Props {
   addTodo: (todo: TodoItemData) => any;
@@ -23,6 +24,10 @@ export default class Header extends React.Component<Props, State> {
     return (
       <header>
         <h1>Todos</h1>
+        <TodoTextInput
+          newTodo
+          onSave={this.handleSave}
+          placeholder="What needs to be done?" />
       </header>
     );
   }
