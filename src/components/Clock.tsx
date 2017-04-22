@@ -1,6 +1,6 @@
 import * as React from 'react'
-import action$ from '../actions/stream'
-import itworx from '../actions/itworx'
+import itworx from '../itworx'
+import * as CONST from '../constants'
 
 interface Props {}
 interface State {
@@ -21,17 +21,17 @@ export default class Clock extends React.Component <Props, State> {
         super(props)
         this.state={time: Date.now()}
         this.getTime = this.getTime.bind(this)
-        itworx.subscribe('TICK', this.getTime)
+        itworx.subscribe(CONST.CLOCK_TICK, this.getTime)
     }
 
     componentDidMount(){
       
-       this.int = window.setInterval(()=>  itworx.dispatch({type: 'TICK', payload: Date.now()}), 1000)
+       this.int = window.setInterval(()=>  itworx.dispatch({type: CONST.CLOCK_TICK, payload: Date.now()}), 1000)
     }
 
     componentWillUnmount(){
         window.clearInterval(this.int)
-        itworx.unsubscribe('TICK', this.getTime)
+        itworx.unsubscribe(CONST.CLOCK_TICK, this.getTime)
     }
 
     getTime(action: Action) {
