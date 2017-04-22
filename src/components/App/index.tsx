@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Clock from '../Clock'
+import Footer from '../Footer'
 
 
 interface Props {}
