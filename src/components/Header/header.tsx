@@ -8,7 +8,7 @@ interface State {
   /* empty */
 }
 
-class Header extends React.Component<Props, State> {
+export default class Header extends React.Component<Props, State> {
 
   constructor(props?: Props) {
     super(props)
