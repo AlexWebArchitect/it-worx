@@ -1,8 +1,11 @@
 import * as React from 'react'
-import TodoTextInput from '../TodoTextInput';
+import itworx from '../../itworx'
+import TodoTextInput from '../TodoTextInput'
+import * as CONST from '../../constants'
 
 interface Props {
-  addTodo: (todo: TodoItemData) => any;
+  /* empty */
+  // addTodo: (todo: TodoItemData) => any
 }
 
 interface State {
@@ -17,10 +20,12 @@ export default class Header extends React.Component<Props, State> {
   }
 
   handleSave(text: string) {
-    if (text.length) this.props.addTodo({ text })
+    if (text.length) itworx.dispatch({type: CONST.ADD_TODO, payload: text})
+    //this.props.addTodo({ text })
   }
 
   render() {
+    console.log('header ver ', itworx.ver)
     return (
       <header>
         <h1>Todos</h1>

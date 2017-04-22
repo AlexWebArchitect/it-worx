@@ -1,17 +1,16 @@
 import * as React from 'react'
+import itworx from '../../itworx'
 import TodoTextInput from '../TodoTextInput'
+import * as CONST from '../../Constants'
 import * as styles from './style.css'
 
 interface Props {
   todo: TodoItemData
-  editTodo: (todo: TodoItemData) => any
-  deleteTodo: (id: number) => any
-  completeTodo: (id: number) => any
-};
+}
 
 interface State {
   editing: boolean
-};
+}
 
 export default class TodoItem extends React.Component<Props, State> {
 
@@ -19,7 +18,7 @@ export default class TodoItem extends React.Component<Props, State> {
     super(props)
     this.state = {
       editing: false
-    };
+    }
     this.handleSave = this.handleSave.bind(this)
     this.handleDoubleClick = this.handleDoubleClick.bind(this)
   }
@@ -29,13 +28,13 @@ export default class TodoItem extends React.Component<Props, State> {
   }
 
   handleSave(id: number, text: string) {
-    if (text.length === 0) this.props.deleteTodo(id)
-    else this.props.editTodo({ id, text })
+    if (text.length === 0) itworx.dispatch({type: CONST.DELETE_TODO, payload: id}) 
+    else  itworx.dispatch({type: CONST.EDIT_TODO, payload: {id, text}}) 
     this.setState({ editing: false })
   }
 
   render() {
-    const { todo, completeTodo, deleteTodo } = this.props;
+    const { todo } = this.props;
 
     let element;
     if (this.state.editing) {
@@ -50,13 +49,14 @@ export default class TodoItem extends React.Component<Props, State> {
           <input className={styles.toggle}
             type="checkbox"
             checked={todo.completed}
-            onChange={() => completeTodo(todo.id)} />
+            onChange={() => itworx.dispatch({type: CONST.COMPLETE_TODO, payload: todo.id})} /> 
 
           <label onDoubleClick={this.handleDoubleClick}>
             {todo.text}
           </label>
 
-          <button className={styles.destroy} onClick={() => deleteTodo(todo.id)} />
+          <button className={styles.destroy} 
+              onClick={() => itworx.dispatch({type: CONST.DELETE_TODO, payload: todo.id})} />
         </div>
       );
     }

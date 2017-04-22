@@ -3,10 +3,11 @@ class itworx {
     
     private worker: Worker
     private subscriptions: Map<string,Function[]>
-    private static ver: number = Date.now()
+    public ver: number 
 
     constructor(workerScript: string){
         
+        this.ver = Date.now()
         this.worker = new Worker(workerScript)    
         this.subscriptions = new Map()
         this.handleMessage = this.handleMessage.bind(this)
