@@ -14,10 +14,10 @@ const TODO_FILTERS = {
 }
 
 interface Props {
-  todos: TodoItemData[]
 }
 
 interface State {
+  todos: TodoItemData[]
   filter: TodoFilterType
 }
 
@@ -25,13 +25,29 @@ export default class MainSection extends React.Component<Props, State> {
 
   constructor(props?: Props) {
     super(props)
-    this.state = { filter: SHOW_ALL }
+    this.state = { filter: SHOW_ALL, todos: [] }
     this.handleClearCompleted = this.handleClearCompleted.bind(this)
     this.handleShow = this.handleShow.bind(this)
+    this.handleAddTodo = this.handleAddTodo.bind(this)
+  }
+
+  componentDidMount(){
+    itworx.subscribe(CONST.ADD_TODO, this.handleAddTodo)
+    itworx.subscribe(CONST.COMPLETE_TODO, this.handleAddTodo)
+  }
+
+  componentWillUnmount() {
+    itworx.unsubscribe(CONST.ADD_TODO, this.handleAddTodo)
+    itworx.unsubscribe(CONST.COMPLETE_TODO, this.handleAddTodo)
+  }
+
+  handleAddTodo(action: Action) {
+    console.log(action.payload)
+    this.setState({todos: action.payload})
   }
 
   handleClearCompleted() {
-    const atLeastOneCompleted = this.props.todos.some(todo => todo.completed)
+    const atLeastOneCompleted = this.state.todos.some(todo => todo.completed)
     const type = CONST.CLEAR_COMPLETED
     if (atLeastOneCompleted) itworx.dispatch({type})
   }
@@ -41,7 +57,7 @@ export default class MainSection extends React.Component<Props, State> {
   }
 
   renderToggleAll(completedCount: number) {
-    const { todos } = this.props
+    const { todos } = this.state
     if (todos.length > 0) {
       return (
         <input
@@ -54,9 +70,8 @@ export default class MainSection extends React.Component<Props, State> {
   }
 
   renderFooter(completedCount: number) {
-    const { todos } = this.props;
-    const { filter } = this.state;
-    const activeCount = todos.length - completedCount;
+    const { filter, todos } = this.state
+    const activeCount = todos.length - completedCount
 
     if (todos.length) {
       return (
@@ -70,8 +85,7 @@ export default class MainSection extends React.Component<Props, State> {
   }
 
   render() {
-    const { todos } = this.props
-    const { filter } = this.state
+    const { filter, todos } = this.state
 
     const filteredTodos = todos.filter(TODO_FILTERS[filter])
     const completedCount = todos.reduce((count, todo) => (

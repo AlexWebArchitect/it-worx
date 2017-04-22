@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as classNames from 'classnames'
 import { SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED } from '../../constants/filters'
 import * as styles from './footer.css'
 
@@ -42,8 +41,12 @@ export default class Footer extends React.Component<Props, State> {
     const title = FILTER_TITLES[filter]
     const { filter: selectedFilter, onShow } = this.props
 
+    const classes = [
+        filter == selectedFilter ? styles.selected : null
+    ].join(' ')
+
     return (
-      <a className={classNames({ [styles.selected]: filter === selectedFilter })}
+      <a className={classes}
         style={{ cursor: 'pointer' }}
         onClick={() => onShow(filter)}>
         {title}

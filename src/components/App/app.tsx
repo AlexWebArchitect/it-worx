@@ -6,7 +6,7 @@ import MainSection from '../../components/MainSection'
 import * as styles from './app.css'
 
 interface Props {
-  todos: TodoItemData[]
+  /* empty */
 }
 
 interface State {
@@ -14,13 +14,14 @@ interface State {
 }
 
 export default class App extends React.Component<Props, State>{
+
   render() {
-    const { todos, children } = this.props;
+    const { children } = this.props;
     console.log('app var ', itworx.ver)
     return (
       <div className={styles.normal}>
         <Header/>
-        {/*<MainSection todos={todos} />*/}
+        <MainSection />
         {children}
       </div>
     )

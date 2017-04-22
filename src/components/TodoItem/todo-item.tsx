@@ -1,8 +1,8 @@
 import * as React from 'react'
 import itworx from '../../itworx'
 import TodoTextInput from '../TodoTextInput'
-import * as CONST from '../../Constants'
-import * as styles from './style.css'
+import * as CONST from '../../constants'
+import * as styles from './todo-item.css'
 
 interface Props {
   todo: TodoItemData
