@@ -32,13 +32,11 @@ export default class MainSection extends React.Component<Props, State> {
   }
 
   componentDidMount(){
-    itworx.subscribe(CONST.ADD_TODO, this.handleAddTodo)
-    itworx.subscribe(CONST.COMPLETE_TODO, this.handleAddTodo)
+    itworx.subscribe([CONST.ADD_TODO, CONST.COMPLETE_TODO], this.handleAddTodo)
   }
 
   componentWillUnmount() {
-    itworx.unsubscribe(CONST.ADD_TODO, this.handleAddTodo)
-    itworx.unsubscribe(CONST.COMPLETE_TODO, this.handleAddTodo)
+    itworx.unsubscribe([CONST.ADD_TODO, CONST.COMPLETE_TODO], this.handleAddTodo)
   }
 
   handleAddTodo(action: Action) {

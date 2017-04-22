@@ -28,6 +28,9 @@ self.onmessage =function(event) {
             if(!!todo) todo.completed = true   
             self.postMessage({type: ADD_TODO, payload: state.todos})    
             break
+        case DELETE_TODO :
+            state.todos = state.todos.filter(todo => todo.id == payload)
+            self.postMessage({type: ADD_TODO, payload: state.todos})   
         default :
             self.postMessage({type, payload})
     }

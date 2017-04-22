@@ -35,22 +35,31 @@ class itworx {
         this.worker.postMessage(action)
     }
 
-    public subscribe(action: string, callback: Function) {
+    public subscribe(action: string | string[], callback: Function) {
 
-        const arr = this.subscriptions.has(action) 
-            ? [...this.subscriptions.get(action), callback]
-            : [callback]
+       const procedure = (action: string) => {
+            const arr = this.subscriptions.has(action) 
+                ? [...this.subscriptions.get(action), callback]
+                : [callback]
 
-        this.subscriptions.set(action, arr)
+            this.subscriptions.set(action, arr)
+        }
+
+         if(typeof action == 'string') procedure(action)
+         else action.forEach( a => procedure(a))
 
     }
 
-    public unsubscribe( action: string, callback: Function) {
+    public unsubscribe( action: string | string[], callback: Function) {
 
-        if(!this.subscriptions.has(action)) return
-        const arr = this.subscriptions.get(action)
-            .filter(func => func!==callback)
-        this.subscriptions.set(action,arr)
+        const procedure = (action: string) => {
+            if(!this.subscriptions.has(action)) return
+            const arr = this.subscriptions.get(action)
+                .filter(func => func!==callback)
+            this.subscriptions.set(action,arr)
+        }
+        if(typeof action == 'string') procedure(action)
+        else action.forEach( a => procedure(a))
     }
 
     public terminate(){
