@@ -3,6 +3,7 @@ class itworx {
     
     private worker: Worker
     private subscriptions: Map<string,Function[]>
+    private static ver: number = Date.now()
 
     constructor(workerScript: string){
         
