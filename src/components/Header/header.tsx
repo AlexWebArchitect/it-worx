@@ -21,7 +21,6 @@ export default class Header extends React.Component<Props, State> {
 
   handleSave(text: string) {
     if (text.length) itworx.dispatch({type: CONST.ADD_TODO, payload: text})
-    //this.props.addTodo({ text })
   }
 
   render() {
