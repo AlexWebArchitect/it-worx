@@ -28,19 +28,18 @@ export default class MainSection extends React.Component<Props, State> {
     this.state = { filter: SHOW_ALL, todos: [] }
     this.handleClearCompleted = this.handleClearCompleted.bind(this)
     this.handleShow = this.handleShow.bind(this)
-    this.handleAddTodo = this.handleAddTodo.bind(this)
+    this.reloadTodos = this.reloadTodos.bind(this)
   }
 
   componentDidMount(){
-    itworx.subscribe([CONST.ADD_TODO, CONST.COMPLETE_TODO], this.handleAddTodo)
+    itworx.subscribe(CONST.RELOAD_TODOS, this.reloadTodos)
   }
 
   componentWillUnmount() {
-    itworx.unsubscribe([CONST.ADD_TODO, CONST.COMPLETE_TODO], this.handleAddTodo)
+    itworx.unsubscribe(CONST.RELOAD_TODOS, this.reloadTodos)
   }
 
-  handleAddTodo(action: Action) {
-    console.log(action.payload)
+  reloadTodos(action: Action) {
     this.setState({todos: action.payload})
   }
 

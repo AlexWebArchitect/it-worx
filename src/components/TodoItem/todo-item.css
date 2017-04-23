@@ -9,7 +9,7 @@
   margin: auto 0;
   /* Mobile Safari */
   border: none;
-  appearance: none;
+  /*appearance: none;*/
 }
 
 .normal .toggle:after {
