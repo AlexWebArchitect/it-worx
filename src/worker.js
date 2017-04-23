@@ -16,11 +16,11 @@ self.onmessage =function(event) {
     switch(type){
        
         case ADD_TODO :
-            state.todos.push({
+            state.todos = [{
                 id: state.todos.reduce((maxId, todo) => Math.max(todo.id, maxId), 0) + 1,
                 text: payload,
                 completed: false
-            })
+            }, ...state.todos]
             self.postMessage({type: ADD_TODO, payload: state.todos})
             break
         case COMPLETE_TODO :
@@ -30,8 +30,17 @@ self.onmessage =function(event) {
             break
         case DELETE_TODO :
             state.todos = state.todos.filter(todo => todo.id == payload)
-            self.postMessage({type: ADD_TODO, payload: state.todos})   
+            self.postMessage({type: ADD_TODO, payload: state.todos})  
+            break 
+        case CLEAR_COMPLETED :
+            state.todos = state.todos.filter(todo => !todo.completed)
+            self.postMessage({type: ADD_TODO, payload: state.todos})  
+            break
+        case EDIT_TODO :
+        case COMPLETE_ALL :
         default :
+            console.log(type)
+            console.log(payload)
             self.postMessage({type, payload})
     }
 }
