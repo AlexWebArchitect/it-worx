@@ -18,7 +18,7 @@ module.exports = {
     filename: '[name].js',
   },
   target: 'web',
-  devtool: 'inline-source-map',
+  devtool: !PRODUCTION ? 'source-map' : false,
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
     // Fix webpack's default behavior to not load packages with jsnext:main module
@@ -77,7 +77,9 @@ module.exports = {
       }
     }),
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(PRODUCTION),
+      'process.env': {
+        NODE_ENV : JSON.stringify(PRODUCTION ? 'production' : 'development')
+      }
     }),
     new ExtractTextPlugin({
       filename: 'styles.css',
