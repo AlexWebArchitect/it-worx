@@ -33,7 +33,7 @@ self.onmessage =function(event) {
             break
         }
         case DELETE_TODO :
-            state.todos = state.todos.filter(todo => todo.id == payload)
+            state.todos = state.todos.filter(todo => todo.id !== payload)
             self.postMessage({type: RELOAD_TODOS, payload: state.todos})  
             break 
         case COMPLETE_TODO : {
