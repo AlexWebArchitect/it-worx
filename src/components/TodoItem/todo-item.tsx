@@ -63,8 +63,8 @@ export default class TodoItem extends React.Component<Props, State> {
 
     const classes = [
         todo.completed ? styles.completed : null,
-        this.state.editing ? styles.editing : null,
-        this.state.editing ? styles.normal : null
+        this.state.editing ? styles.editing : styles.normal
+      //  this.state.editing ? styles.normal : null
     ].join(' ')
 
     return (
