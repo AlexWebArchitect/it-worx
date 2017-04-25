@@ -10,23 +10,29 @@ const PRODUCTION = process.argv.indexOf('-p') >= 0
 module.exports = {
   context: sourcePath,
   entry: {
-    main: './index.tsx'
+    bundle: './index.tsx'
   },
   output: {
     path: outPath,
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   target: 'web',
+  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
     // Fix webpack's default behavior to not load packages with jsnext:main module
     // https://github.com/Microsoft/TypeScript/issues/11677 
-    mainFields: ['main']
+   // mainFields: ['main']
   },
   module: {
-    loaders: [
+    rules: [
       // .ts, .tsx
+      {
+        enforce: 'pre',
+        test: /\.tsx?$/,
+        use: "source-map-loader"
+      },
       {
         test: /\.tsx?$/,
           loader: PRODUCTION ? 'ts-loader' : ['react-hot-loader', 'ts-loader']
