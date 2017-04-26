@@ -61,7 +61,8 @@ export default class MainSection extends React.Component<Props, State> {
           className={styles.toggleAll}
           type="checkbox"
           checked={completedCount === todos.length}
-          onChange={()=>itworx.dispatch({type: CONST.COMPLETE_ALL})} />
+          onChange={()=>itworx.dispatch({type: CONST.COMPLETE_ALL})} 
+          data-cy="todo toggle all"/>
       )
     }
   }

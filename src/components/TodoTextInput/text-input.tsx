@@ -25,13 +25,16 @@ export default class TodoTextInput extends React.Component<Props, State> {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleSubmit(e) {
-    const text = e.target.value.trim();
-    if (e.which === 13) {
-      this.props.onSave(text)
-      if (this.props.newTodo) {
-        this.setState({ text: '' });
-      }
+  handleSubmit(event) {
+    let text = event.target.value.trim();
+    switch(event.key){
+      case "Escape" :
+         if(this.props.newTodo) return this.setState({ text: '' })
+         this.props.onSave(this.props.text)
+         break
+      case 'Enter' :
+        this.props.onSave(text)
+        if (this.props.newTodo) this.setState({ text: '' })
     }
   }
 

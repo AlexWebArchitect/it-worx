@@ -49,7 +49,8 @@ export default class TodoItem extends React.Component<Props, State> {
           <input className={styles.toggle}
             type="checkbox"
             checked={todo.completed}
-            onChange={() => itworx.dispatch({type: CONST.COMPLETE_TODO, payload: todo.id})} /> 
+            onChange={() => itworx.dispatch({type: CONST.COMPLETE_TODO, payload: todo.id})} 
+            data-cy="todo toggle"/> 
 
           <label onDoubleClick={this.handleDoubleClick}>
             {todo.text}

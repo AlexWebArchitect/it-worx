@@ -68,17 +68,17 @@ describe("TodoMVC - React", function(){
     it("should allow me to add todo items", function(){
       cy
         // create 1st todo
-        .get("[data-cy='todo input']").type(TODO_ITEM_ONE).type("{enter}")
+        .get("[data-cy='todo input']").as("todoInput").type(TODO_ITEM_ONE).type("{enter}")
 
         // make sure the 1st label contains the 1st todo text
-        .get("[data-cy='todo list'] li").eq(0).find("label").should("contain", TODO_ITEM_ONE)
+        .get("[data-cy='todo list'] li").as("todoListItems").eq(0).find("label").should("contain", TODO_ITEM_ONE)
 
         // create 2nd todo
-        .get("[data-cy='todo input']").type(TODO_ITEM_TWO).type("{enter}")
-        .get("[data-cy='todo input']").type(TODO_ITEM_THREE).type("{enter}")
+        .get("@todoInput").type(TODO_ITEM_TWO).type("{enter}")
+        .get("@todoInput").type(TODO_ITEM_THREE).type("{enter}")
 
         // make sure the 2nd label contains the 2nd todo text
-        .get("[data-cy='todo list'] li").eq(0).find("label").should("contain", TODO_ITEM_THREE)
+        .get("[data-cy='todo list'] li").eq(2).find("label").should("contain", TODO_ITEM_ONE)
     })
 
     it("should clear text input field when an item is added", function(){
@@ -123,4 +123,108 @@ describe("TodoMVC - React", function(){
     })
   })
 
+   context("Mark all as completed", function(){
+    // New commands used here:
+    // - cy.check    https://on.cypress.io/api/check
+    // - cy.uncheck  https://on.cypress.io/api/uncheck
+
+    beforeEach(function(){
+      // This is an example of aliasing
+      // within a hook (beforeEach).
+      // Aliases will automatically persist
+      // between hooks and are available
+      // in your tests below
+      cy.createDefaultTodos().as("todos")
+    })
+
+    it("should allow me to mark all items as completed", function(){
+      cy
+        // complete all todos
+        // we use 'check' instead of 'click'
+        // because that indicates our intention much clearer
+       .get("[data-cy='todo toggle all']").check()
+
+        // get each todo li and ensure its have css 'line-through'
+        .get("@todos").eq(0).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
+        .get("@todos").eq(1).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
+        .get("@todos").eq(2).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
+    })
+   })
+
+   context("Editing", function(){
+    // New commands used here:
+    // - cy.blur    https://on.cypress.io/api/blur
+
+    beforeEach(function(){
+      cy.createDefaultTodos().as("todos")
+    })
+
+    it("should hide other controls when editing", function(){
+      cy
+        .get("@todos").eq(1).as("secondTodo")
+          .find("label").dblclick()
+
+        .get("@secondTodo").find("[data-cy='todo toggle']").should("not.be.visible")
+        .get("@secondTodo").find("label").should("not.be.visible")
+
+    })
+
+    it("should save edits on blur", function(){
+      cy
+        .get("@todos").eq(1).as("secondTodo")
+          .find("label").dblclick()
+
+        .get("@secondTodo")
+          .find("input[type=text]").clear()
+          .type("buy some sausages")
+
+          // we can just send the blur event directly
+          // to the input instead of having to click
+          // on another button on the page. though you
+          // could do that its just more mental work
+          .blur()
+
+        .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+        .get("@secondTodo").should("contain", "buy some sausages")
+        .get("@todos").eq(2).should("contain", TODO_ITEM_ONE)
+    })
+
+    it("should trim entered text", function(){
+      cy
+        .get("@todos").eq(1).as("secondTodo")
+          .find("label").dblclick()
+
+        .get("@secondTodo")
+          .find("input[type=text]").clear()
+          .type("    buy some sausages    ").type("{enter}")
+
+        .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+        .get("@secondTodo").should("contain", "buy some sausages")
+        .get("@todos").eq(2).should("contain", TODO_ITEM_ONE)
+    })
+
+    it("should remove the item if an empty text string was entered", function(){
+      cy
+        .get("@todos").eq(1).as("secondTodo")
+          .find("label").dblclick()
+
+        .get("@secondTodo")
+          .find("input[type=text]").clear().type("{enter}")
+
+        .get("@todos").should("have.length", 2)
+    })
+
+    it("should cancel edits on escape", function(){
+      cy
+        .get("@todos").eq(1).as("secondTodo")
+          .find("label").dblclick()
+
+        .get("@secondTodo")
+          .find("input[type=text]").clear().type("foo{esc}")
+
+        .get("@todos").eq(2).should("contain", TODO_ITEM_ONE)
+        .get("@todos").eq(1).should("contain", TODO_ITEM_TWO)
+        .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+    })
+  })
 })
