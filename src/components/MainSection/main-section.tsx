@@ -61,7 +61,8 @@ export default class MainSection extends React.Component<Props, State> {
           className={styles.toggleAll}
           type="checkbox"
           checked={completedCount === todos.length}
-          onChange={()=>itworx.dispatch({type: CONST.COMPLETE_ALL})} />
+          onChange={()=>itworx.dispatch({type: CONST.COMPLETE_ALL})} 
+          data-cy="todo toggle all"/>
       )
     }
   }
@@ -92,7 +93,8 @@ export default class MainSection extends React.Component<Props, State> {
     return (
       <section className={styles.main}>
         {this.renderToggleAll(completedCount)}
-        <ul className={styles.normal}>
+        <ul className={styles.normal} 
+            data-cy="todo list">
           {filteredTodos.map(todo =>
             <TodoItem key={todo.id} todo={todo} />
           )}
