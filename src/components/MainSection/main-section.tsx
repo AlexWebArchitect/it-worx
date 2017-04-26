@@ -92,7 +92,8 @@ export default class MainSection extends React.Component<Props, State> {
     return (
       <section className={styles.main}>
         {this.renderToggleAll(completedCount)}
-        <ul className={styles.normal}>
+        <ul className={styles.normal} 
+            data-cy="todo list">
           {filteredTodos.map(todo =>
             <TodoItem key={todo.id} todo={todo} />
           )}

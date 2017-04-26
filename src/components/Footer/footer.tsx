@@ -31,7 +31,8 @@ export default class Footer extends React.Component<Props, State> {
     const itemWord = activeCount === 1 ? 'item' : 'items'
 
     return (
-      <span className={styles.count}>
+      <span className={styles.count}
+        data-cy="todo count">
         <strong>{activeCount || 'No'}</strong> {itemWord} left
       </span>
     );
