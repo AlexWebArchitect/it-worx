@@ -60,7 +60,8 @@ export default class TodoTextInput extends React.Component<Props, State> {
         value={this.state.text}
         onBlur={this.handleBlur}
         onChange={this.handleChange}
-        onKeyDown={this.handleSubmit} />
+        onKeyDown={this.handleSubmit} 
+        data-cy="todo input" />
     )
   }
 }
