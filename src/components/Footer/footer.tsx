@@ -59,7 +59,9 @@ export default class Footer extends React.Component<Props, State> {
     const { completedCount, onClearCompleted } = this.props;
     if (completedCount > 0) {
       return (
-        <button className={styles.clearCompleted} onClick={onClearCompleted} >
+        <button className={styles.clearCompleted} 
+          onClick={onClearCompleted} 
+          data-cy="todo clear completed">
           Clear completed
         </button>
       );
@@ -72,7 +74,8 @@ export default class Footer extends React.Component<Props, State> {
         {this.renderTodoCount()}
         <ul className={styles.filters}>
           {FILTER_TYPES.map((filter) =>
-            <li key={filter}>
+            <li key={filter}
+              data-cy="todo filters">
               {this.renderFilterLink(filter)}
             </li>
           )}
