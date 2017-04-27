@@ -148,6 +148,9 @@ describe("TodoMVC - React", function(){
         .get("@todos").eq(0).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
         .get("@todos").eq(1).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
         .get("@todos").eq(2).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
+        // .get("@todos").eq(0).find("label").should("have.css", "text-decoration", "line-through*")
+        // .get("@todos").eq(1).find("label").should("have.css", "text-decoration", "line-through*")
+        // .get("@todos").eq(2).find("label").should("have.css", "text-decoration", "line-through*")
     })
    })
 
@@ -225,6 +228,15 @@ describe("TodoMVC - React", function(){
         .get("@todos").eq(2).should("contain", TODO_ITEM_ONE)
         .get("@todos").eq(1).should("contain", TODO_ITEM_TWO)
         .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+    })
+  })
+   context("Counter", function(){
+    it("should display the current number of todo items", function(){
+      cy
+        .createTodo(TODO_ITEM_ONE)
+        .get("[data-cy='todo count'").contains("1 item left")
+        .createTodo(TODO_ITEM_TWO)
+        .get("[data-cy='todo count'").contains("2 items left")
     })
   })
 })
