@@ -16,7 +16,6 @@ interface State {
 export default class App extends React.Component<Props, State>{
 
   render() {
-    console.log('app var ', itworx.ver)
     return (
       <div className={styles.normal}>
         <Header/>
@@ -26,5 +25,6 @@ export default class App extends React.Component<Props, State>{
   }
 }
 /*
-  TODO: Adda localStorage to save todo
+  TODO: Add localStorage to save    --done
+  TODO: Check version               --done
 */
