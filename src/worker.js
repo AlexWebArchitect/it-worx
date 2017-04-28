@@ -50,6 +50,10 @@ self.onmessage =function(event) {
             state.todos = state.todos.filter(todo => !todo.completed)
             self.postMessage({type: RELOAD_TODOS, payload: state.todos})  
             break
+        case RELOAD_TODOS :
+            state.todos = payload
+            self.postMessage({type: RELOAD_TODOS, payload})  
+            break
         default :
            
     }
