@@ -52,6 +52,7 @@ describe("TodoMVC - React", function(){
         cy.focused().should("have.attr", "data-cy", "todo input")
     })
   })
+  
   context("New Todo", function(){
     // New commands used here:
     // - cy.type     https://on.cypress.io/api/type
@@ -303,20 +304,5 @@ describe("TodoMVC - React", function(){
         .get("@filters").contains("All").click()
         .get("@todos").should("have.length", 3)
     })
-
-/*
-    it("should respect the back button", function(){
-      cy
-        .get("@todos").eq(1).find("[data-cy='todo toggle']").check()
-        .get("[data-cy='todo filters']").contains("Active").click()
-        .get("[data-cy='todo filters']").contains("Completed").click()
-        .get("@todos").should("have.length", 1)
-        .go("back")
-        .get("@todos").should("have.length", 2)
-        .go("back")
-        .get("@todos").should("have.length", 3)
-    })
-
-    */
   })
 })

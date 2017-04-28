@@ -7,7 +7,6 @@ class itworx {
 
     constructor(workerScript: string){
         
-        this.ver = Date.now()
         this.worker = new Worker(workerScript)    
         this.subscriptions = new Map()
         this.handleMessage = this.handleMessage.bind(this)

@@ -34,7 +34,7 @@ export default class MainSection extends React.Component<Props, State> {
 
   componentDidMount(){
     itworx.subscribe(CONST.RELOAD_TODOS, this.reloadTodos)
-    itworx.dispatch({type: CONST.RELOAD_TODOS, payload: API.load()})
+    itworx.dispatch({type: CONST.RELOAD_TODOS, payload: API.load() || []})
   }
 
   componentWillUnmount() {
