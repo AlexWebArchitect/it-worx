@@ -16,14 +16,15 @@ interface State {
 export default class App extends React.Component<Props, State>{
 
   render() {
-    const { children } = this.props;
-    console.log('app var ', itworx.ver)
     return (
       <div className={styles.normal}>
         <Header/>
         <MainSection />
-        {children}
       </div>
     )
   }
 }
+/*
+  TODO: Add localStorage to save    --done
+  TODO: Check version               --done
+*/

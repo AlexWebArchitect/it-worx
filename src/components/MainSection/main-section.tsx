@@ -4,6 +4,7 @@ import TodoItem from '../TodoItem'
 import Footer from '../Footer'
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../../constants/filters'
 import itworx from '../../itworx'
+import * as API from '../../helpers/storageAPI'
 import * as  CONST from '../../constants'
 import * as styles from './main-section.css'
 
@@ -33,6 +34,7 @@ export default class MainSection extends React.Component<Props, State> {
 
   componentDidMount(){
     itworx.subscribe(CONST.RELOAD_TODOS, this.reloadTodos)
+    itworx.dispatch({type: CONST.RELOAD_TODOS, payload: API.load() || []})
   }
 
   componentWillUnmount() {
@@ -41,6 +43,7 @@ export default class MainSection extends React.Component<Props, State> {
 
   reloadTodos(action: Action) {
     this.setState({todos: action.payload})
+    API.save(action.payload)
   }
 
   handleClearCompleted() {

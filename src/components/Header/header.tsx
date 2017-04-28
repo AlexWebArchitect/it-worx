@@ -5,7 +5,6 @@ import * as CONST from '../../constants'
 
 interface Props {
   /* empty */
-  // addTodo: (todo: TodoItemData) => any
 }
 
 interface State {
@@ -24,7 +23,6 @@ export default class Header extends React.Component<Props, State> {
   }
 
   render() {
-    console.log('header ver ', itworx.ver)
     return (
       <header>
         <h1>Todos</h1>

@@ -52,6 +52,7 @@ describe("TodoMVC - React", function(){
         cy.focused().should("have.attr", "data-cy", "todo input")
     })
   })
+  
   context("New Todo", function(){
     // New commands used here:
     // - cy.type     https://on.cypress.io/api/type
@@ -148,6 +149,9 @@ describe("TodoMVC - React", function(){
         .get("@todos").eq(0).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
         .get("@todos").eq(1).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
         .get("@todos").eq(2).find("label").should("have.css", "text-decoration", "line-through solid rgb(217, 217, 217)")
+        // .get("@todos").eq(0).find("label").should("have.css", "text-decoration", "line-through*")
+        // .get("@todos").eq(1).find("label").should("have.css", "text-decoration", "line-through*")
+        // .get("@todos").eq(2).find("label").should("have.css", "text-decoration", "line-through*")
     })
    })
 
@@ -225,6 +229,80 @@ describe("TodoMVC - React", function(){
         .get("@todos").eq(2).should("contain", TODO_ITEM_ONE)
         .get("@todos").eq(1).should("contain", TODO_ITEM_TWO)
         .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+    })
+  })
+
+  context("Counter", function(){
+    it("should display the current number of todo items", function(){
+      cy
+        .createTodo(TODO_ITEM_ONE)
+        .get("[data-cy='todo count'").contains("1 item left")
+        .createTodo(TODO_ITEM_TWO)
+        .get("[data-cy='todo count'").contains("2 items left")
+    })
+  })
+  
+   context("Clear completed button", function(){
+    beforeEach(function(){
+      cy.createDefaultTodos().as("todos")
+    })
+
+    it("should display the correct text", function(){
+      cy
+        .get("@todos").eq(0).find("[data-cy='todo toggle']").check()
+        .get("[data-cy='todo clear completed']").contains("Clear completed")
+    })
+
+    it("should remove completed items when clicked", function(){
+      cy
+        .get("@todos").eq(1).find("[data-cy='todo toggle']").check()
+        .get("[data-cy='todo clear completed']").click()
+        .get("@todos").should("have.length", 2)
+        .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+        .get("@todos").eq(1).should("contain", TODO_ITEM_ONE)
+    })
+
+    it("should be hidden when there are no items that are completed", function(){
+      cy
+        .get("@todos").eq(1).find("[data-cy='todo toggle']").check()
+        .get("[data-cy='todo clear completed']").should("be.visible").click()
+        .get("[data-cy='todo clear completed']").should("not.exist")
+    })
+  })
+
+   context("Routing", function(){
+    // New commands used here:
+    // - cy.window  https://on.cypress.io/api/window
+    // - cy.its     https://on.cypress.io/api/its
+    // - cy.invoke  https://on.cypress.io/api/invoke
+    // - cy.within  https://on.cypress.io/api/within
+
+    beforeEach(function(){
+      cy.createDefaultTodos().as("todos")
+    })
+
+    it("should allow me to display active items", function(){
+      cy
+        .get("@todos").eq(1).find("[data-cy='todo toggle']").check()
+        .get("[data-cy='todo filters']").contains("Active").click()
+        .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+        .get("@todos").eq(1).should("contain", TODO_ITEM_ONE)
+    })
+
+    it("should allow me to display completed items", function(){
+      cy
+        .get("@todos").eq(1).find("[data-cy='todo toggle']").check()
+        .get("[data-cy='todo filters']").contains("Completed").click()
+        .get("@todos").should("have.length", 1)
+    })
+
+    it("should allow me to display all items", function(){
+      cy
+        .get("@todos").eq(1).find("[data-cy='todo toggle']").check()
+        .get("[data-cy='todo filters']").as("filters").contains("Active").click()
+        .get("@filters").contains("Completed").click()
+        .get("@filters").contains("All").click()
+        .get("@todos").should("have.length", 3)
     })
   })
 })
