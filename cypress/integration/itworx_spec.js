@@ -37,7 +37,7 @@ describe("TodoMVC - React", function(){
     // https://on.cypress.io/api/visit
     cy.visit("/")
   })
-/*
+
   context("When page is initially opened", function(){
 
     it("should render todo input field", function(){
@@ -268,7 +268,7 @@ describe("TodoMVC - React", function(){
         .get("[data-cy='todo clear completed']").should("not.exist")
     })
   })
-*/
+
    context("Routing", function(){
     // New commands used here:
     // - cy.window  https://on.cypress.io/api/window
