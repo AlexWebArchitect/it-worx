@@ -4,7 +4,7 @@ import TodoItem from '../TodoItem'
 import Footer from '../Footer'
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../../constants/filters'
 import itworx from '../../itworx'
-import * as API from '../../helpers/storeAPI'
+import * as API from '../../helpers/storageAPI'
 import * as  CONST from '../../constants'
 import * as styles from './main-section.css'
 
