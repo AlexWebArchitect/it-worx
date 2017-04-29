@@ -305,4 +305,57 @@ describe("TodoMVC - React", function(){
         .get("@todos").should("have.length", 3)
     })
   })
+
+  context("Saving", function(){
+    // New commands used here:
+    // - cy.clearLocalStorage()
+    // - cy.reload()
+
+    beforeEach(function(){
+      cy.createDefaultTodos().as("todos")
+    })
+    
+    it("should load todos from local storage after reload", function(){
+      cy
+        .reload()
+        .get("@todos").should('have.length', 3)
+        .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+    })
+
+    it("should be empty afer clear localStorage", function(){
+      cy
+        .get("@todos").should('have.length', 3)
+        .clearLocalStorage()
+        .reload()
+        .get("@todos").should('have.length', 0)
+    })
+  })
+
+  context("Deleting", function(){
+    // New commands used here:
+    // - cy.click({force: true})
+
+    beforeEach(function(){
+      cy.createDefaultTodos().as("todos")
+    })
+    
+    it("should remove item after delete button has pressed", function(){
+      cy
+        .get("@todos").should('have.length', 3)
+        .get("@todos").eq(0).should("contain", TODO_ITEM_THREE)
+        .get("@todos").eq(0).find("[data-cy='todo delete']").click({force: true}) // button is invisible
+        .get("@todos").should('have.length', 2)
+        .get("@todos").eq(0).should("contain", TODO_ITEM_TWO)
+    })
+
+    it("should allow me to remove the completed todo", function(){
+      cy
+        .get("@todos").should('have.length', 3)
+        .get("@todos").eq(1).should("contain", TODO_ITEM_TWO)
+        .get("[data-cy='todo toggle all']").check()
+        .get("@todos").eq(1).find("[data-cy='todo delete']").click({force: true}) // button is invisible
+        .get("@todos").should('have.length', 2)
+        .get("@todos").eq(1).should("contain", TODO_ITEM_ONE)
+    })
+  })
 })
