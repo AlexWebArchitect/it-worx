@@ -57,7 +57,8 @@ export default class TodoItem extends React.Component<Props, State> {
           </label>
 
           <button className={styles.destroy} 
-              onClick={() => itworx.dispatch({type: CONST.DELETE_TODO, payload: todo.id})} />
+              onClick={() => itworx.dispatch({type: CONST.DELETE_TODO, payload: todo.id})} 
+              data-cy="todo delete"/>
         </div>
       );
     }
