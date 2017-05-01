@@ -10,7 +10,8 @@ const PRODUCTION = process.argv.indexOf('-p') >= 0
 module.exports = {
   context: sourcePath,
   entry: {
-    bundle: './index.tsx'
+    bundle: './index.tsx',
+    worker: './workers/worker.ts'
   },
   output: {
     path: outPath,
